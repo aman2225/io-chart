@@ -2,21 +2,15 @@
   <header class="dashboard-header">
     <div class="header-badge">Frontend Intern Assignment</div>
     <h1 class="dashboard-title">io-chart</h1>
-
   </header>
 
-  <!-- ══════════════════════════════
-       LIVE PLAYGROUND
-  ══════════════════════════════ -->
   <section class="section playground-section">
     <div class="section-tag">Live Playground</div>
     <p class="section-desc">Edit the inputs below — the chart updates instantly.</p>
 
     <div class="playground">
-      <!-- ── Controls ── -->
       <div class="controls">
 
-        <!-- Chart Type -->
         <div class="form-row">
           <label class="form-label" for="chartType">Chart Type</label>
           <div class="type-toggle">
@@ -25,21 +19,18 @@
           </div>
         </div>
 
-        <!-- Title -->
         <div class="form-row">
           <label class="form-label" for="chartTitle">Chart Title</label>
           <input id="chartTitle" class="form-input" type="text" placeholder="e.g. Sales Report" [(ngModel)]="liveTitle"
             (ngModelChange)="onFieldChange()" />
         </div>
 
-        <!-- Series rows -->
         <div class="form-row series-header-row">
           <span class="form-label">Data Series</span>
           <button class="btn-add" (click)="addRow()" title="Add a series row">+ Add Row</button>
         </div>
 
         <div class="series-table">
-          <!-- Header -->
           <div class="series-row series-row-header">
             <span>Name</span>
             <span>Value</span>
@@ -47,7 +38,6 @@
             <span></span>
           </div>
 
-          <!-- Data rows -->
           <div class="series-row" *ngFor="let row of liveSeries; let i = index">
             <input class="form-input" type="text" placeholder="Label" [(ngModel)]="row.name"
               (ngModelChange)="onFieldChange()" />
@@ -61,16 +51,12 @@
         </div>
       </div>
 
-      <!-- ── Live Chart Preview ── -->
       <div class="preview">
         <io-chart [chartOptions]="liveChart"></io-chart>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════
-       STATIC EXAMPLES
-  ══════════════════════════════ -->
   <div class="divider">
     <span>Component Examples</span>
   </div>
@@ -94,6 +80,5 @@
     <div class="section-tag">Pie Chart</div>
     <io-chart [chartOptions]="pieChart"></io-chart>
   </section>
-
 
 </main>

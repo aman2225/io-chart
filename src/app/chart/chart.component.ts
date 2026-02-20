@@ -39,10 +39,8 @@ export interface LinePoint {
 export class IoChartComponent implements OnChanges {
     @Input() chartOptions!: ChartOptions;
 
-    // Shared
     hoveredIndex: number = -1;
 
-    // Column / Line chart shared
     maxValue: number = 0;
     barWidth: number = 0;
     barGap: number = 0;
@@ -57,12 +55,10 @@ export class IoChartComponent implements OnChanges {
     yTicks: { value: number; y: number; label: string }[] = [];
     columnBars: { x: number; y: number; width: number; height: number; color: string; name: string; value: number }[] = [];
 
-    // Line chart
     linePoints: LinePoint[] = [];
     polylinePath: string = '';
     areaPath: string = '';
 
-    // Pie chart
     pieSlices: PieSlice[] = [];
     total: number = 0;
 

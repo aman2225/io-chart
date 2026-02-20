@@ -18,7 +18,6 @@ interface SeriesRow {
   styleUrls: ['./app.scss'],
 })
 export class App {
-  // ── Live playground state ──
   chartTypes: Array<'line' | 'column' | 'pie'> = ['line', 'column', 'pie'];
   liveType: 'line' | 'column' | 'pie' = 'line';
   liveTitle: string = 'My Chart';
@@ -28,7 +27,6 @@ export class App {
     { name: 'Category C', value: 30, color: '#f97316' },
   ];
 
-  // The options object passed to io-chart (always a new reference so OnPush triggers)
   liveChart: ChartOptions = this.buildOptions();
 
   private buildOptions(): ChartOptions {
@@ -64,7 +62,6 @@ export class App {
     this.liveChart = this.buildOptions();
   }
 
-  // ── Static example charts below ──
   lineChart: ChartOptions = {
     type: 'line',
     title: 'Monthly Sales',

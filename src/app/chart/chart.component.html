@@ -1,14 +1,12 @@
 <div class="io-chart-wrapper" *ngIf="chartOptions && chartOptions.series?.length">
   <h2 class="chart-title">{{ chartOptions.title }}</h2>
 
-  <!-- ===================== COLUMN CHART ===================== -->
   <div class="chart-container" *ngIf="chartOptions.type === 'column'">
     <svg
       class="chart-svg"
       [attr.viewBox]="'0 0 ' + chartWidth + ' ' + svgHeight"
       preserveAspectRatio="xMidYMid meet"
     >
-      <!-- Grid lines & Y-axis ticks -->
       <g class="grid">
         <ng-container *ngFor="let tick of yTicks; trackBy: trackByIndex">
           <line
@@ -24,13 +22,11 @@
         </ng-container>
       </g>
 
-      <!-- Axes -->
       <line class="axis-line" [attr.x1]="chartPaddingLeft" [attr.y1]="chartPaddingTop"
             [attr.x2]="chartPaddingLeft" [attr.y2]="chartPaddingTop + innerHeight" />
       <line class="axis-line" [attr.x1]="chartPaddingLeft" [attr.y1]="chartPaddingTop + innerHeight"
             [attr.x2]="chartWidth - chartPaddingRight" [attr.y2]="chartPaddingTop + innerHeight" />
 
-      <!-- Bars -->
       <g *ngFor="let bar of columnBars; let i = index; trackBy: trackByIndex">
         <defs>
           <linearGradient [id]="'bar-grad-' + i" x1="0" y1="0" x2="0" y2="1">
@@ -51,7 +47,6 @@
           (mouseenter)="onHover(i)"
           (mouseleave)="onLeave()"
         />
-        <!-- Value label on hover -->
         <text
           *ngIf="hoveredIndex === i"
           class="bar-value-label"
@@ -59,7 +54,6 @@
           [attr.y]="bar.y - 8"
           text-anchor="middle"
         >{{ bar.value }}</text>
-        <!-- X-axis label -->
         <text
           class="axis-label x-label"
           [attr.x]="bar.x + bar.width / 2"
@@ -70,7 +64,6 @@
     </svg>
   </div>
 
-  <!-- ===================== LINE CHART ===================== -->
   <div class="chart-container" *ngIf="chartOptions.type === 'line'">
     <svg
       class="chart-svg"
@@ -88,7 +81,6 @@
         </filter>
       </defs>
 
-      <!-- Grid lines & Y-axis ticks -->
       <g class="grid">
         <ng-container *ngFor="let tick of yTicks; trackBy: trackByIndex">
           <line
@@ -104,16 +96,13 @@
         </ng-container>
       </g>
 
-      <!-- Axes -->
       <line class="axis-line" [attr.x1]="chartPaddingLeft" [attr.y1]="chartPaddingTop"
             [attr.x2]="chartPaddingLeft" [attr.y2]="chartPaddingTop + innerHeight" />
       <line class="axis-line" [attr.x1]="chartPaddingLeft" [attr.y1]="chartPaddingTop + innerHeight"
             [attr.x2]="chartWidth - chartPaddingRight" [attr.y2]="chartPaddingTop + innerHeight" />
 
-      <!-- Area fill -->
       <path class="line-area" [attr.d]="areaPath" fill="url(#line-area-grad)" />
 
-      <!-- Line path -->
       <path
         class="line-path"
         [attr.d]="polylinePath"
@@ -122,7 +111,6 @@
         filter="url(#glow)"
       />
 
-      <!-- Points -->
       <ng-container *ngFor="let pt of linePoints; let i = index; trackBy: trackByIndex">
         <circle
           class="line-point"
@@ -134,7 +122,6 @@
           (mouseenter)="onHover(i)"
           (mouseleave)="onLeave()"
         />
-        <!-- Tooltip on hover -->
         <g *ngIf="hoveredIndex === i" class="tooltip-group">
           <rect
             class="tooltip-bg"
@@ -146,7 +133,6 @@
             {{ pt.name }}: {{ pt.value }}
           </text>
         </g>
-        <!-- X-axis label -->
         <text
           class="axis-label x-label"
           [attr.x]="pt.x"
@@ -157,7 +143,6 @@
     </svg>
   </div>
 
-  <!-- ===================== PIE CHART ===================== -->
   <div class="chart-container pie-layout" *ngIf="chartOptions.type === 'pie'">
     <svg class="chart-svg pie-svg" viewBox="0 0 360 320" preserveAspectRatio="xMidYMid meet">
       <defs>
@@ -175,7 +160,6 @@
           (mouseenter)="onHover(i)"
           (mouseleave)="onLeave()"
         />
-        <!-- Percentage label inside slice -->
         <text
           *ngIf="slice.percent > 0.05"
           class="pie-label"
@@ -188,7 +172,6 @@
     </svg>
   </div>
 
-  <!-- ===================== LEGEND ===================== -->
   <div class="chart-legend">
     <div
       class="legend-item"
