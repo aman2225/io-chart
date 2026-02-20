@@ -1,0 +1,72 @@
+﻿[33mΓ¥»[39m Building...
+[32mΓ£ö[39m Building...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m        [2m | [22m[1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m         [2m | [22m [36m1.06 MB[39m[2m | [22m
+[32mstyles.css[39m         [2m | [22m[2mstyles[22m       [2m | [22m [36m1.01 kB[39m[2m | [22m
+
+[1m [22m                  [2m | [22m[1mInitial total[22m[2m | [22m [1m1.06 MB[22m
+
+Application bundle generation complete. [1.735 seconds] - 2026-02-20T05:54:16.422Z
+
+node.exe : 
+[1m[33m[33mΓû▓ [43;
+33m[[43;30mWARNING[43
+;33m][0m [1mNG8107: 
+The left side of this 
+optional chain 
+operation does not 
+include 'null' or 
+'undefined' in its 
+type, therefore the 
+'?.' operator can be 
+replaced with the '.' 
+operator.[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+At C:\Program Files\nod
+ejs\npx.ps1:29 char:3
++   & $NODE_EXE 
+$NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([1m[33m[33   
+ mΓ...r-compiler][    
+0m:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+
+    src/app/chart/chart
+.component.html:1:74:
+[37m      1 Γöé 
+...chart-wrapper" 
+*ngIf="chartOptions && 
+chartOptions.series?.[
+32mlength[37m">
+        Γò╡            
+                       
+                       
+     [32m~~~~~~[0m
+
+  Warning occurs in 
+the template of 
+component 
+IoChartComponent.
+
+    src/app/chart/chart
+.component.ts:35:17:
+[37m      35 Γöé     
+templateUrl: [32m'./ch
+art.component.html'[37
+m,
+         Γò╡           
+       [32m~~~~~~~~~~~
+~~~~~~~~~~~~~[0m
+
+[39m[22m
+Output location: C:\Users\amank\.gemini\antigravity\scratch\io-chart\dist\io-chart
+

@@ -1,0 +1,205 @@
+<div class="io-chart-wrapper" *ngIf="chartOptions && chartOptions.series?.length">
+  <h2 class="chart-title">{{ chartOptions.title }}</h2>
+
+  <!-- ===================== COLUMN CHART ===================== -->
+  <div class="chart-container" *ngIf="chartOptions.type === 'column'">
+    <svg
+      class="chart-svg"
+      [attr.viewBox]="'0 0 ' + chartWidth + ' ' + svgHeight"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <!-- Grid lines & Y-axis ticks -->
+      <g class="grid">
+        <ng-container *ngFor="let tick of yTicks; trackBy: trackByIndex">
+          <line
+            class="grid-line"
+            [attr.x1]="chartPaddingLeft"
+            [attr.y1]="tick.y"
+            [attr.x2]="chartWidth - chartPaddingRight"
+            [attr.y2]="tick.y"
+          />
+          <text class="axis-label" [attr.x]="chartPaddingLeft - 8" [attr.y]="tick.y + 4" text-anchor="end">
+            {{ tick.label }}
+          </text>
+        </ng-container>
+      </g>
+
+      <!-- Axes -->
+      <line class="axis-line" [attr.x1]="chartPaddingLeft" [attr.y1]="chartPaddingTop"
+            [attr.x2]="chartPaddingLeft" [attr.y2]="chartPaddingTop + innerHeight" />
+      <line class="axis-line" [attr.x1]="chartPaddingLeft" [attr.y1]="chartPaddingTop + innerHeight"
+            [attr.x2]="chartWidth - chartPaddingRight" [attr.y2]="chartPaddingTop + innerHeight" />
+
+      <!-- Bars -->
+      <g *ngFor="let bar of columnBars; let i = index; trackBy: trackByIndex">
+        <defs>
+          <linearGradient [id]="'bar-grad-' + i" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" [attr.stop-color]="bar.color" stop-opacity="0.9" />
+            <stop offset="100%" [attr.stop-color]="bar.color" stop-opacity="0.5" />
+          </linearGradient>
+        </defs>
+        <rect
+          class="bar-rect"
+          [class.hovered]="hoveredIndex === i"
+          [attr.x]="bar.x"
+          [attr.y]="bar.y"
+          [attr.width]="bar.width"
+          [attr.height]="bar.height"
+          [attr.fill]="'url(#bar-grad-' + i + ')'"
+          [attr.rx]="4"
+          [style.transform-origin]="bar.x + 'px ' + (chartPaddingTop + innerHeight) + 'px'"
+          (mouseenter)="onHover(i)"
+          (mouseleave)="onLeave()"
+        />
+        <!-- Value label on hover -->
+        <text
+          *ngIf="hoveredIndex === i"
+          class="bar-value-label"
+          [attr.x]="bar.x + bar.width / 2"
+          [attr.y]="bar.y - 8"
+          text-anchor="middle"
+        >{{ bar.value }}</text>
+        <!-- X-axis label -->
+        <text
+          class="axis-label x-label"
+          [attr.x]="bar.x + bar.width / 2"
+          [attr.y]="chartPaddingTop + innerHeight + 20"
+          text-anchor="middle"
+        >{{ bar.name }}</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ===================== LINE CHART ===================== -->
+  <div class="chart-container" *ngIf="chartOptions.type === 'line'">
+    <svg
+      class="chart-svg"
+      [attr.viewBox]="'0 0 ' + chartWidth + ' ' + svgHeight"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <defs>
+        <linearGradient id="line-area-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" [attr.stop-color]="chartOptions.series[0]?.color || '#6366f1'" stop-opacity="0.3" />
+          <stop offset="100%" [attr.stop-color]="chartOptions.series[0]?.color || '#6366f1'" stop-opacity="0.02" />
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Grid lines & Y-axis ticks -->
+      <g class="grid">
+        <ng-container *ngFor="let tick of yTicks; trackBy: trackByIndex">
+          <line
+            class="grid-line"
+            [attr.x1]="chartPaddingLeft"
+            [attr.y1]="tick.y"
+            [attr.x2]="chartWidth - chartPaddingRight"
+            [attr.y2]="tick.y"
+          />
+          <text class="axis-label" [attr.x]="chartPaddingLeft - 8" [attr.y]="tick.y + 4" text-anchor="end">
+            {{ tick.label }}
+          </text>
+        </ng-container>
+      </g>
+
+      <!-- Axes -->
+      <line class="axis-line" [attr.x1]="chartPaddingLeft" [attr.y1]="chartPaddingTop"
+            [attr.x2]="chartPaddingLeft" [attr.y2]="chartPaddingTop + innerHeight" />
+      <line class="axis-line" [attr.x1]="chartPaddingLeft" [attr.y1]="chartPaddingTop + innerHeight"
+            [attr.x2]="chartWidth - chartPaddingRight" [attr.y2]="chartPaddingTop + innerHeight" />
+
+      <!-- Area fill -->
+      <path class="line-area" [attr.d]="areaPath" fill="url(#line-area-grad)" />
+
+      <!-- Line path -->
+      <path
+        class="line-path"
+        [attr.d]="polylinePath"
+        [attr.stroke]="chartOptions.series[0]?.color || '#6366f1'"
+        fill="none"
+        filter="url(#glow)"
+      />
+
+      <!-- Points -->
+      <ng-container *ngFor="let pt of linePoints; let i = index; trackBy: trackByIndex">
+        <circle
+          class="line-point"
+          [class.hovered]="hoveredIndex === i"
+          [attr.cx]="pt.x"
+          [attr.cy]="pt.y"
+          [attr.r]="hoveredIndex === i ? 8 : 5"
+          [attr.fill]="pt.color"
+          (mouseenter)="onHover(i)"
+          (mouseleave)="onLeave()"
+        />
+        <!-- Tooltip on hover -->
+        <g *ngIf="hoveredIndex === i" class="tooltip-group">
+          <rect
+            class="tooltip-bg"
+            [attr.x]="pt.x - 36"
+            [attr.y]="pt.y - 38"
+            width="72" height="26" rx="6"
+          />
+          <text class="tooltip-text" [attr.x]="pt.x" [attr.y]="pt.y - 20" text-anchor="middle">
+            {{ pt.name }}: {{ pt.value }}
+          </text>
+        </g>
+        <!-- X-axis label -->
+        <text
+          class="axis-label x-label"
+          [attr.x]="pt.x"
+          [attr.y]="chartPaddingTop + innerHeight + 20"
+          text-anchor="middle"
+        >{{ pt.name }}</text>
+      </ng-container>
+    </svg>
+  </div>
+
+  <!-- ===================== PIE CHART ===================== -->
+  <div class="chart-container pie-layout" *ngIf="chartOptions.type === 'pie'">
+    <svg class="chart-svg pie-svg" viewBox="0 0 360 320" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <filter id="pie-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.35)" />
+        </filter>
+      </defs>
+      <ng-container *ngFor="let slice of pieSlices; let i = index; trackBy: trackByIndex">
+        <path
+          class="pie-slice"
+          [class.hovered]="hoveredIndex === i"
+          [attr.d]="slice.path"
+          [attr.fill]="slice.color"
+          filter="url(#pie-shadow)"
+          (mouseenter)="onHover(i)"
+          (mouseleave)="onLeave()"
+        />
+        <!-- Percentage label inside slice -->
+        <text
+          *ngIf="slice.percent > 0.05"
+          class="pie-label"
+          [attr.x]="slice.labelX"
+          [attr.y]="slice.labelY"
+          text-anchor="middle"
+          dominant-baseline="middle"
+        >{{ formatPercent(slice.percent) }}</text>
+      </ng-container>
+    </svg>
+  </div>
+
+  <!-- ===================== LEGEND ===================== -->
+  <div class="chart-legend">
+    <div
+      class="legend-item"
+      *ngFor="let s of chartOptions.series; let i = index; trackBy: trackByIndex"
+      [class.hovered]="hoveredIndex === i"
+      (mouseenter)="onHover(i)"
+      (mouseleave)="onLeave()"
+    >
+      <span class="legend-dot" [style.background-color]="s.color"></span>
+      <span class="legend-name">{{ s.name }}</span>
+      <span class="legend-value">{{ s.value }}</span>
+    </div>
+  </div>
+</div>

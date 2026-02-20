@@ -1,0 +1,99 @@
+<main class="dashboard">
+  <header class="dashboard-header">
+    <div class="header-badge">Frontend Intern Assignment</div>
+    <h1 class="dashboard-title">io-chart</h1>
+
+  </header>
+
+  <!-- ══════════════════════════════
+       LIVE PLAYGROUND
+  ══════════════════════════════ -->
+  <section class="section playground-section">
+    <div class="section-tag">Live Playground</div>
+    <p class="section-desc">Edit the inputs below — the chart updates instantly.</p>
+
+    <div class="playground">
+      <!-- ── Controls ── -->
+      <div class="controls">
+
+        <!-- Chart Type -->
+        <div class="form-row">
+          <label class="form-label" for="chartType">Chart Type</label>
+          <div class="type-toggle">
+            <button *ngFor="let t of chartTypes" class="type-btn" [class.active]="liveType === t"
+              (click)="liveType = t; onTypeChange()">{{ t }}</button>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <div class="form-row">
+          <label class="form-label" for="chartTitle">Chart Title</label>
+          <input id="chartTitle" class="form-input" type="text" placeholder="e.g. Sales Report" [(ngModel)]="liveTitle"
+            (ngModelChange)="onFieldChange()" />
+        </div>
+
+        <!-- Series rows -->
+        <div class="form-row series-header-row">
+          <span class="form-label">Data Series</span>
+          <button class="btn-add" (click)="addRow()" title="Add a series row">+ Add Row</button>
+        </div>
+
+        <div class="series-table">
+          <!-- Header -->
+          <div class="series-row series-row-header">
+            <span>Name</span>
+            <span>Value</span>
+            <span>Color</span>
+            <span></span>
+          </div>
+
+          <!-- Data rows -->
+          <div class="series-row" *ngFor="let row of liveSeries; let i = index">
+            <input class="form-input" type="text" placeholder="Label" [(ngModel)]="row.name"
+              (ngModelChange)="onFieldChange()" />
+            <input class="form-input input-number" type="number" placeholder="0" [(ngModel)]="row.value"
+              (ngModelChange)="onFieldChange()" />
+            <input class="input-color" type="color" [(ngModel)]="row.color" (ngModelChange)="onFieldChange()"
+              title="Pick color" />
+            <button class="btn-remove" (click)="removeRow(i)" [disabled]="liveSeries.length <= 1"
+              title="Remove row">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Live Chart Preview ── -->
+      <div class="preview">
+        <io-chart [chartOptions]="liveChart"></io-chart>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       STATIC EXAMPLES
+  ══════════════════════════════ -->
+  <div class="divider">
+    <span>Component Examples</span>
+  </div>
+
+  <section class="section">
+    <div class="section-tag">Assignment Spec Example Input</div>
+    <io-chart [chartOptions]="assignmentExample"></io-chart>
+  </section>
+
+  <section class="section">
+    <div class="section-tag">Line Chart</div>
+    <io-chart [chartOptions]="lineChart"></io-chart>
+  </section>
+
+  <section class="section">
+    <div class="section-tag">Column Chart</div>
+    <io-chart [chartOptions]="columnChart"></io-chart>
+  </section>
+
+  <section class="section">
+    <div class="section-tag">Pie Chart</div>
+    <io-chart [chartOptions]="pieChart"></io-chart>
+  </section>
+
+
+</main>

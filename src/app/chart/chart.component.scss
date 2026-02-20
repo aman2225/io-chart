@@ -1,0 +1,192 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.io-chart-wrapper {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+// Title
+.chart-title {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1.25rem;
+}
+
+// SVG container
+.chart-container {
+    width: 100%;
+
+    &.pie-layout {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.chart-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+}
+
+.pie-svg {
+    max-width: 340px;
+}
+
+// Axes & grid
+.axis-line {
+    stroke: #d1d5db;
+    stroke-width: 1;
+}
+
+.grid-line {
+    stroke: #f3f4f6;
+    stroke-width: 1;
+}
+
+.axis-label {
+    fill: #9ca3af;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+}
+
+.x-label {
+    font-size: 11px;
+}
+
+// Column bars
+.bar-rect {
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+
+    &.hovered {
+        opacity: 0.75;
+    }
+}
+
+.bar-value-label {
+    fill: #374151;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    pointer-events: none;
+}
+
+// Line chart
+.line-path {
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.line-area {
+    opacity: 0.12;
+}
+
+.line-point {
+    cursor: pointer;
+    transition: r 0.15s ease;
+
+    &.hovered {
+        stroke: #fff;
+        stroke-width: 2;
+    }
+}
+
+// Tooltip
+.tooltip-bg {
+    fill: #1f2937;
+}
+
+.tooltip-text {
+    fill: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    pointer-events: none;
+}
+
+// Pie slices
+.pie-slice {
+    cursor: pointer;
+    transform-origin: 180px 160px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+
+    &.hovered {
+        transform: scale(1.04);
+        opacity: 0.85;
+    }
+}
+
+.pie-label {
+    fill: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    pointer-events: none;
+}
+
+// Legend
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #6b7280;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    transition: background 0.1s ease;
+
+    &:hover,
+    &.hovered {
+        background: #f9fafb;
+        color: #111827;
+    }
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-name {
+    font-weight: 400;
+}
+
+.legend-value {
+    font-weight: 600;
+    color: #374151;
+}
+
+// Responsive
+@media (max-width: 500px) {
+    .io-chart-wrapper {
+        padding: 1rem;
+    }
+
+    .chart-title {
+        font-size: 0.9rem;
+    }
+}
